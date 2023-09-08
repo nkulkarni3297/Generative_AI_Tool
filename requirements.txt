@@ -1,0 +1,6 @@
+flask
+openai
+pytesseract
+PyMuPDF
+PDF2image
+PyPDF2

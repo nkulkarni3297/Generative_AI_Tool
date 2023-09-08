@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Generative AI Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="sidebar">
+
+            <form class="menu-item" action="/upload" method="POST" enctype="multipart/form-data">
+                <label for="api_key">Enter your OpenAI API Key:</label>
+                <input type="password" id="api_key" name="api_key" required>
+
+                <label for="option">Select an option:</label>
+                <select id="option" name="option">
+                    <option value="Select an Option">Select an option</option>
+                    <option value="Dynamic OCR">Dynamic OCR</option>
+                    <option value="Translate OCR">Translate OCR</option>
+                    <option value="Single Case Summary">Single Case Summary</option>
+                    <option value="Multiple Case Summary">Multiple Case Summary</option>
+                </select>
+
+                <label for="file">Select a file:</label>
+                <input type="file" id="file" name="file">
+                <button type="submit">Upload and Process</button>
+            </form>
+        </div>
+        <div class="right-section">
+            <h1>Generative AI Demo</h1>
+            <h2>👈 Please select an option on the left side.</h2>
+
+            <!-- Add a div for messages and loading circle -->
+            <div id="processing-message" style="display: none;">
+                <p><strong>File uploaded successfully and processing...</strong></p>
+                <div class="loader"></div>
+            </div>
+            <div id="response-container">
+                {% if dynamic_ocr %}
+                    <h3>PDF Text</h3>
+                    <pre>{{ dynamic_ocr |replace("\n", "<br>") | safe }}</pre>
+                {% endif %}
+
+                {% if translated_ocr %}
+                </style>
+                    <h3>Translated JSON</h3>
+                    <pre>{{ translated_ocr | replace("\n", "<br>")| safe }}</pre>
+                {% endif %}
+
+                {% if chatbot_response_single %}
+                    <h3>Chatbot Response</h3>
+                    <p>{{ chatbot_response_single|replace("\n", "<br>") | safe}}</p>
+                {% endif %}
+
+                {% if chatbot_response_multiple %}
+                    <h3>Chatbot Response</h3>
+                    <pre>{{ chatbot_response_multiple |replace("\n", "<br>") | safe }}</pre>
+                    
+                {% endif %}
+            </div>
+
+            <div id="processing-message" style="display: none;">
+                <p><strong>Processing...</strong></p>
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.menu-item');
+            const processingMessage = document.getElementById('processing-message');
+            const repsonseMessage = document.getElementById('response-container');
+
+            form.addEventListener('submit', function() {
+
+                // Display processing message and loading circle
+                processingMessage.style.display = 'block';
+                repsonseMessage.innerHTML = ''
+
+                setTimeout(function() {
+                    
+                    processingMessage.innerHTML = '<p><strong>Processing complete! Waiting for the response... </strong></p> <div class="loader"></div>';
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+
+</html>
