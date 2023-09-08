@@ -4,3 +4,4 @@ pytesseract
 PyMuPDF
 PDF2image
 PyPDF2
+APScheduler
